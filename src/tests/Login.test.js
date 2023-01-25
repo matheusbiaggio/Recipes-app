@@ -1,6 +1,6 @@
 import React from 'react';
 import { screen, userEvent } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+// import { act } from 'react-dom/test-utils';
 import App from '../App';
 import renderWithRouter from './helpers/renderWithRouter';
 
