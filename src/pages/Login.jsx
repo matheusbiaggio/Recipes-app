@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import FormLogin from '../components/FormLogin';
+import SearchBar from '../components/SearchBar';
 
-export default class Login extends Component {
-  render() {
-    return (
-      <div><FormLogin /></div>
-    );
-  }
+export default function Login() {
+  return (
+    <div>
+      <FormLogin />
+      <SearchBar />
+    </div>
+  );
 }
