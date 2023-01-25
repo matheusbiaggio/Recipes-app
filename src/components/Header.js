@@ -1,32 +1,8 @@
-import React, { useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useContext } from 'react';
 import HeaderContext from '../context/HeaderContext';
 
 export default function Header() {
-  const { title, setTitle } = useContext(HeaderContext);
-  const history = useHistory();
-
-  useEffect(() => {
-    switch (history.location.pathname) {
-    case '/meals':
-      setTitle('Meals');
-      break;
-    case '/drinks':
-      setTitle('Dinks');
-      break;
-    case '/profile':
-      setTitle('Profile');
-      break;
-    case '/done-recipes':
-      setTitle('Done Recipes');
-      break;
-    case '/favorite-recipes':
-      setTitle('Favorite Recipes');
-      break;
-    default:
-      console.log('Erro');
-    }
-  }, [history, setTitle]);
+  const { title, search } = useContext(HeaderContext);
 
   return (
     <div>
@@ -40,11 +16,15 @@ export default function Header() {
         src="src/images/profileIcon.svg"
         data-testid="profile-top-btn"
       />
-      <img
-        alt="search-icon"
-        src="src/images/searchIcon.svg"
-        data-testid="search-top-btn"
-      />
+      {
+        search && <img
+          alt="search-icon"
+          src="src/images/searchIcon.svg"
+          data-testid="search-top-btn"
+        />
+
+      }
+
     </div>
   );
 }
