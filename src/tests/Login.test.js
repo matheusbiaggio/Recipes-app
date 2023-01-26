@@ -52,8 +52,6 @@ describe('Teste para a tela de login', () => {
       name: /enter/i,
     });
 
-    console.log(loginInput);
-
     userEvent.type(loginInput, EMAIL_CONST);
     userEvent.type(passwordInput, PASSWORD_CONST);
 
