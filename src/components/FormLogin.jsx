@@ -7,18 +7,6 @@ function FormLogin() {
 
   const history = useHistory();
 
-  const validationForm = () => {
-    const MIN_PASSWORD_LENGTH = 6;
-    if (
-      login.email.includes('@')
-      && login.email.includes('.com')
-      && login.password.length > MIN_PASSWORD_LENGTH) {
-      setBtnDisabled(false);
-    } else {
-      setBtnDisabled(true);
-    }
-  };
-
   const handleChange = (event) => {
     setLogin({
       ...login,
@@ -32,11 +20,22 @@ function FormLogin() {
   };
 
   useEffect(() => {
+    const validationForm = () => {
+      const MIN_PASSWORD_LENGTH = 6;
+      if (
+        login.email.includes('@')
+        && login.email.includes('.com')
+        && login.password.length > MIN_PASSWORD_LENGTH) {
+        setBtnDisabled(false);
+      } else {
+        setBtnDisabled(true);
+      }
+    };
     validationForm();
   }, [login]);
 
   return (
-    <>
+    <div>
       <h1>Login</h1>
       <label htmlFor="email">
         <input
@@ -66,7 +65,7 @@ function FormLogin() {
       >
         Enter
       </button>
-    </>
+    </div>
   );
 }
 

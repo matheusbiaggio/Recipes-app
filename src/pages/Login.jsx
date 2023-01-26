@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import FormLogin from '../components/FormLogin';
 
-export default class Login extends Component {
-  render() {
-    return (
-      <div><FormLogin /></div>
-    );
-  }
+export default function Login() {
+  return (
+    <div><FormLogin /></div>
+  );
 }
