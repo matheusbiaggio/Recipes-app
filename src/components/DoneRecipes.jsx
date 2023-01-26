@@ -1,11 +1,10 @@
-import React, { useContext } from 'react';
-import HeaderContext from '../context/HeaderContext';
+import React from 'react';
+import Header from './Header';
 
 export default function DoneRecipes() {
-  const { title } = useContext(HeaderContext);
   return (
     <div>
-      { title }
+      <Header title="Done Recipes" />
     </div>
   );
 }
