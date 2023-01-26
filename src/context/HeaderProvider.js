@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import { useState, useMemo, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import HeaderContext from './HeaderContext';
-import Header from '../components/Header';
 
 export default function HeaderProvider({ children }) {
   const [title, setTitle] = useState('');
@@ -31,7 +30,7 @@ export default function HeaderProvider({ children }) {
     default:
       console.log('Erro');
     }
-  }, [history, setTitle]);
+  }, [history, setTitle, title]);
 
   const context = useMemo(() => ({
     title,
@@ -41,7 +40,6 @@ export default function HeaderProvider({ children }) {
 
   return (
     <HeaderContext.Provider value={ context }>
-      <Header />
       { children }
     </HeaderContext.Provider>
   );

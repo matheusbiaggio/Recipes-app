@@ -9,7 +9,7 @@ import Login from './pages/Login';
 import Meals from './pages/Meals';
 // import PageNotFound from './pages/PageNotFound';
 
-import HeaderProvider from './context/HeaderProvider';
+// import HeaderProvider from './context/HeaderProvider';
 
 import './App.css';
 
@@ -17,13 +17,13 @@ function App() {
   return (
     <div>
       <Route exact path="/" component={ Login } />
-      <HeaderProvider>
-        <Route exact path="/meals" component={ Meals } />
-        <Route exact path="/done-recipes" component={ DoneRecipes } />
-        <Route exact path="/drinks" component={ Drinks } />
-        <Route exact path="/profile" component={ Profile } />
-        <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
-      </HeaderProvider>
+      {/* <HeaderProvider> */}
+      <Route exact path="/meals" component={ Meals } />
+      <Route exact path="/done-recipes" component={ DoneRecipes } />
+      <Route exact path="/drinks" component={ Drinks } />
+      <Route exact path="/profile" component={ Profile } />
+      <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
+      {/* </HeaderProvider> */}
       {/* <Route path="*" component={ PageNotFound } exact />
       <Route exact path="/meals/:id-da-receita" component={ Meals } />
       <Route exact path="/meals/:id-da-receita/in-progress" component={ Meals } />
