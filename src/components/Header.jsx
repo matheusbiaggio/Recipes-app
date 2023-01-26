@@ -5,7 +5,7 @@ import SearchBar from './SearchBar';
 
 export default function Header({ title }) {
   const [searchBar, setSearchBar] = useState(false);
-  const [showButton, setShowButton] = useState(false);
+  const [showButton, setShowButton] = useState(true);
   const history = useHistory();
 
   const handleNavegation = () => {
@@ -14,10 +14,11 @@ export default function Header({ title }) {
 
   useEffect(() => {
     if (
-      history.location.pathname === '/meals'
-    || history.location.pathname === '/drinks'
+      history.location.pathname === '/done-recipes'
+    || history.location.pathname === '/favorite-recipes'
+    || history.location.pathname === '/profile'
     ) {
-      setShowButton(true);
+      setShowButton(false);
     }
   }, [history.location.pathname]);
 
@@ -46,7 +47,7 @@ export default function Header({ title }) {
           >
             <img
               src="src/images/searchIcon.svg"
-              alt="Profile"
+              alt="Search"
               data-testid="search-top-btn"
             />
           </button>)

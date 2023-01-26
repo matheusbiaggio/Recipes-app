@@ -1,11 +1,13 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
 import Meals from '../pages/Meals';
-import FormLogin from '../components/FormLogin';
+import Profile from '../pages/Profile';
+import '@testing-library/jest-dom/extend-expect';
 
 describe('Teste para o Header', () => {
-  test('se renderiza titlo da pagina', () => {
+  test('se renderiza titulo da pagina', () => {
     renderWithRouter(<Meals />);
 
     const title = screen.getByRole('heading', {
@@ -14,18 +16,31 @@ describe('Teste para o Header', () => {
 
     expect(title).toBeDefined();
   });
-  // test('se a rota Login não possui Header', () => {
-  //   renderWithRouter(<FormLogin />);
+  test('ao clicar no ícone renderiza o SearchInput', () => {
+    renderWithRouter(<Meals />);
 
-  //   const title = screen.getByTestId('profile-top-btn');
+    const searchIcon = screen.getByAltText('Search');
 
-  //   expect(title).toBeNull();
-  // });
-  test('se a rota vai para profile ao clicar no button', () => {
-    renderWithRouter(<FormLogin />);
+    userEvent.click(searchIcon);
 
-    const title = screen.getByTestId('profile-top-btn');
+    const Searchinput = screen.getByRole('textbox');
 
-    expect(title).not.toBeInTheDocument();
+    expect(Searchinput).toBeInTheDocument();
+  });
+  test('se meals renderiza botão profile', () => {
+    const { history } = renderWithRouter(<Meals />);
+
+    const buttonProfile = screen.getByRole('button', {
+      name: /profile/i,
+    });
+
+    expect(buttonProfile).toBeInTheDocument();
+
+    userEvent.click(buttonProfile);
+
+    expect(history.location.pathname).toBe('/profile');
+  });
+  test('se nao aparece o search input', () => {
+    renderWithRouter(<Profile />);
   });
 });
