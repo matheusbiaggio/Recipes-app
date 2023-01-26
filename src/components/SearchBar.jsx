@@ -5,38 +5,25 @@ function SearchBar() {
   const [selectedOption, setSelectedOption] = useState('');
   const [elementList, setElementList] = useState({});
   const [elementSearch, setElementSearch] = useState('');
-  const { isLoading, error, makeFetch } = useRequestAPI();
+  const [endpoint, setEndpoint] = useState('');
+  const { isLoading, makeFetch } = useRequestAPI();
 
-  let URL_API_MEAL = '';
-  let URL_API_DRINK = '';
-
-  if (selectedOption === 'ingredient-search-radio') {
-    URL_API_MEAL = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${elementSearch.elementSearch}`;
-    URL_API_DRINK = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${elementSearch.elementSearch}`;
-  } else if (selectedOption === 'name-search-radio') {
-    URL_API_MEAL = `https://www.themealdb.com/api/json/v1/1/search.php?s=${elementSearch.elementSearch}`;
-    URL_API_DRINK = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?s=${elementSearch.elementSearch}`;
-  } else {
-    URL_API_MEAL = `https://www.themealdb.com/api/json/v1/1/search.php?f=${elementSearch.elementSearch}`;
-    URL_API_DRINK = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?f=${elementSearch.elementSearch}`;
-  }
-
-  const SELECT_APTION = 'beer';
-
-  const onValueChange = ({ target }) => {
-    setSelectedOption(target.value);
-  };
+  const SELECT_APTION = 'meal';
 
   const requestAPI = async () => {
-    if (SELECT_APTION === 'meals') {
-      const fetchAPI = await makeFetch(URL_API_MEAL);
-      setElementList(fetchAPI);
-      console.log(elementList);
-    } else {
-      const fetchAPI = await makeFetch(URL_API_DRINK);
-      setElementList(fetchAPI);
-      console.log(elementList);
+    const fetchAPI = await makeFetch(SELECT_APTION, endpoint);
+    setElementList(fetchAPI);
+  };
+
+  const handleClick = async () => {
+    if (selectedOption === 'ingredient-search-radio') {
+      setEndpoint(`filter.php?i=${elementSearch.elementSearch}`);
+    } else if (selectedOption === 'name-search-radio') {
+      setEndpoint(`search.php?s=${elementSearch.elementSearch}`);
+    } else if (selectedOption === 'first-letter-search-radio') {
+      setEndpoint(`search.php?f=${elementSearch.elementSearch}`);
     }
+    requestAPI();
   };
 
   const handleChange = (event) => {
@@ -45,8 +32,8 @@ function SearchBar() {
     });
   };
 
-  const handleClick = async () => {
-    requestAPI();
+  const onValueChange = ({ target }) => {
+    setSelectedOption(target.value);
   };
 
   return (
