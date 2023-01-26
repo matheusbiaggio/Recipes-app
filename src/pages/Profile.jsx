@@ -1,13 +1,11 @@
-import React, { useContext } from 'react';
-import HeaderContext from '../context/HeaderContext';
+import React from 'react';
+// import HeaderContext from '../context/HeaderContext';
 
 export default function Profile() {
-  const { title } = useContext(HeaderContext);
+  // const { title } = useContext(HeaderContext);
   return (
     <div>
-      <h1>
-        { title }
-      </h1>
+      Profile
     </div>
   );
 }

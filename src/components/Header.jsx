@@ -8,10 +8,6 @@ export default function Header() {
   const [toProfile, setToProfile] = useState(false);
   const [searchBar, setSearchBar] = useState(false);
 
-  const appearBar = () => {
-    setSearchBar(!searchBar);
-  };
-
   return (
     <div>
       <h1
@@ -24,18 +20,20 @@ export default function Header() {
         onClick={ () => setToProfile(true) }
         src="src/images/profileIcon.svg"
       >
-        profile
+        Profile
       </button>
-      { search && (
-        <button
-          type="button"
-          src="src/images/searchIcon.svg"
-          data-testid="search-top-btn"
-          onClick={ appearBar }
-        >
-          search
-        </button>
-      )}
+      {
+        search
+        && (
+          <button
+            type="button"
+            src="src/images/searchIcon.svg"
+            data-testid="search-top-btn"
+            onClick={ () => setSearchBar(!searchBar) }
+          >
+            Search
+          </button>)
+      }
       { toProfile && <Redirect to="/profile" /> }
 
       { searchBar && <SearchBar />}
