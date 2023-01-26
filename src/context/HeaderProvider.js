@@ -31,7 +31,7 @@ export default function HeaderProvider({ children }) {
     default:
       console.log('Erro');
     }
-  }, [history, setTitle]);
+  }, [history, setTitle, title]);
 
   const context = useMemo(() => ({
     title,

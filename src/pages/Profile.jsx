@@ -5,9 +5,9 @@ export default function Profile() {
   const { title } = useContext(HeaderContext);
   return (
     <div>
-      <header>
+      <h1>
         { title }
-      </header>
+      </h1>
     </div>
   );
 }

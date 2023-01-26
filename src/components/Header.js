@@ -1,10 +1,16 @@
 import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import HeaderContext from '../context/HeaderContext';
+import SearchBar from './SearchBar';
 
 export default function Header() {
   const { title, search } = useContext(HeaderContext);
   const [toProfile, setToProfile] = useState(false);
+  const [searchBar, setSearchBar] = useState(false);
+
+  const appearBar = () => {
+    setSearchBar(!searchBar);
+  };
 
   return (
     <div>
@@ -16,20 +22,22 @@ export default function Header() {
       <button
         data-testid="profile-top-btn"
         onClick={ () => setToProfile(true) }
+        src="src/images/profileIcon.svg"
       >
-        <img
-          alt="profile-icon"
-          src="src/images/profileIcon.svg"
-        />
       </button>
       {
-        search && <img
-          alt="search-icon"
-          src="src/images/searchIcon.svg"
-          data-testid="search-top-btn"
-        />
+        search && 
+        <button 
+        type="button"
+        src="src/images/searchIcon.svg"
+        data-testid="search-top-btn"
+        onClick={ appearBar }
+        >
+        </button>
       }
       { toProfile && <Redirect to="/profile" /> }
+
+      { searchBar && <SearchBar />}
 
     </div>
   );
