@@ -24,17 +24,18 @@ export default function Header() {
         onClick={ () => setToProfile(true) }
         src="src/images/profileIcon.svg"
       >
+        profile
       </button>
-      {
-        search && 
-        <button 
-        type="button"
-        src="src/images/searchIcon.svg"
-        data-testid="search-top-btn"
-        onClick={ appearBar }
+      { search && (
+        <button
+          type="button"
+          src="src/images/searchIcon.svg"
+          data-testid="search-top-btn"
+          onClick={ appearBar }
         >
+          search
         </button>
-      }
+      )}
       { toProfile && <Redirect to="/profile" /> }
 
       { searchBar && <SearchBar />}
