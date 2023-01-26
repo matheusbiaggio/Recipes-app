@@ -1,29 +1,34 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import useRequestAPI from '../hooks/useRequestAPI';
+import Card from './Card';
+import AppContext from '../context/AppContext';
 
 function SearchBar() {
-  const [selectedOption, setSelectedOption] = useState('');
-  const [elementList, setElementList] = useState({});
   const [elementSearch, setElementSearch] = useState('');
-  const [endpoint, setEndpoint] = useState('');
+  const [selectedOption, setSelectedOption] = useState('');
+
   const { isLoading, makeFetch } = useRequestAPI();
 
-  const SELECT_APTION = 'meal';
+  const { verifyElementList, SELECT_OPTION } = useContext(AppContext);
 
-  const requestAPI = async () => {
-    const fetchAPI = await makeFetch(SELECT_APTION, endpoint);
-    setElementList(fetchAPI);
+  const history = useHistory();
+
+  const requestAPI = async (endpoint) => {
+    const fetchAPI = await makeFetch(SELECT_OPTION, endpoint);
+    verifyElementList(fetchAPI, history);
   };
 
   const handleClick = async () => {
+    let endpoint = '';
     if (selectedOption === 'ingredient-search-radio') {
-      setEndpoint(`filter.php?i=${elementSearch.elementSearch}`);
+      endpoint = `filter.php?i=${elementSearch.elementSearch}`;
     } else if (selectedOption === 'name-search-radio') {
-      setEndpoint(`search.php?s=${elementSearch.elementSearch}`);
-    } else if (selectedOption === 'first-letter-search-radio') {
-      setEndpoint(`search.php?f=${elementSearch.elementSearch}`);
+      endpoint = `search.php?s=${elementSearch.elementSearch}`;
+    } else {
+      endpoint = `search.php?f=${elementSearch.elementSearch}`;
     }
-    requestAPI();
+    await requestAPI(endpoint);
   };
 
   const handleChange = (event) => {
@@ -35,6 +40,13 @@ function SearchBar() {
   const onValueChange = ({ target }) => {
     setSelectedOption(target.value);
   };
+
+  useEffect(() => {
+    if (selectedOption === 'first-letter-search-radio'
+    && elementSearch.elementSearch.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
+    }
+  }, [elementSearch]);
 
   return (
     <div>
@@ -92,6 +104,7 @@ function SearchBar() {
       >
         Search
       </button>
+      <Card />
     </div>
   );
 }
