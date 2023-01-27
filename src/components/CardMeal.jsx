@@ -7,7 +7,7 @@ function Card() {
   return (
     <div>
       {
-        Object.keys(renderElements).length !== 0
+        renderElements !== undefined
           ? renderElements.map(({ strMealThumb, strMeal }, index) => (
             <div data-testid={ `${index}-recipe-card` } key={ index }>
               <img
