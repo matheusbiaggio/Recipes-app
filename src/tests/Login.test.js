@@ -1,6 +1,6 @@
 import React from 'react';
-import { screen, userEvent } from '@testing-library/react';
-// import { act } from 'react-dom/test-utils';
+import userEvent from '@testing-library/user-event';
+import { screen } from '@testing-library/react';
 import App from '../App';
 import renderWithRouter from './helpers/renderWithRouter';
 
@@ -60,9 +60,5 @@ describe('Teste para a tela de login', () => {
     userEvent.click(btnEnter);
 
     expect(history.location.pathname).toBe('/meals');
-
-    // act(() => {
-    //   history.push('/meals');
-    // });
   });
 });
