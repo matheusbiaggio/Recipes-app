@@ -54,7 +54,7 @@ function SearchBar() {
     && elementSearch.elementSearch.length > 1) {
       global.alert('Your search must have only 1 (one) character');
     }
-  }, [elementSearch, selectedOption]);
+  }, [elementSearch]);
 
   return (
     <div>
