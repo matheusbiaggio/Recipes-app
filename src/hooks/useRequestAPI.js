@@ -4,10 +4,10 @@ function useRequestAPI() {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState(null);
 
-  const makeFetch = async (nameAPI, endpoint) => {
+  const makeFetch = async (mealOrDrink, endpoint) => {
     try {
       setIsLoading(true);
-      const url = `https://the${nameAPI}db.com/api/json/v1/1/${endpoint}`;
+      const url = `https://www.the${mealOrDrink}db.com/api/json/v1/1/${endpoint}`;
       const response = await fetch(url);
       const json = await response.json();
       return json;

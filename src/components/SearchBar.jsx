@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useRequestAPI from '../hooks/useRequestAPI';
-import Card from './Card';
 import AppContext from '../context/AppContext';
 
 function SearchBar() {
@@ -10,13 +9,22 @@ function SearchBar() {
 
   const { isLoading, makeFetch } = useRequestAPI();
 
-  const { verifyElementList, SELECT_OPTION } = useContext(AppContext);
+  const { verifyElementList } = useContext(AppContext);
 
   const history = useHistory();
 
+  let mealOrDrink = '';
+
   const requestAPI = async (endpoint) => {
-    const fetchAPI = await makeFetch(SELECT_OPTION, endpoint);
-    verifyElementList(fetchAPI, history);
+    if (history.location.pathname === '/meals') {
+      mealOrDrink = 'meal';
+      const fetchAPI = await makeFetch(mealOrDrink, endpoint);
+      verifyElementList(mealOrDrink, fetchAPI, history);
+    } else if (history.location.pathname === '/drinks') {
+      mealOrDrink = 'cocktail';
+      const fetchAPI = await makeFetch(mealOrDrink, endpoint);
+      verifyElementList(mealOrDrink, fetchAPI, history);
+    }
   };
 
   const handleClick = async () => {
@@ -46,7 +54,7 @@ function SearchBar() {
     && elementSearch.elementSearch.length > 1) {
       global.alert('Your search must have only 1 (one) character');
     }
-  }, [elementSearch, selectedOption]);
+  }, [elementSearch]);
 
   return (
     <div>
@@ -105,7 +113,6 @@ function SearchBar() {
       >
         Search
       </button>
-      <Card />
     </div>
   );
 }
