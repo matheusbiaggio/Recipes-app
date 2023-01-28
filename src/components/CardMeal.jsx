@@ -16,24 +16,29 @@ function CardMeal({ mealOrDrink }) {
 
   let renderElements12 = [];
 
-  if (renderElements.length !== 0) {
-    renderElements12 = isMeal && renderElements.meals.slice(0, NUMBER_TWELVE);
-  }
+  const renderCard = () => {
+    if (renderElements.meals) {
+      renderElements12 = isMeal && renderElements.meals.slice(0, NUMBER_TWELVE);
+      return (
+        renderElements12.map(({ strMealThumb, strMeal }, index) => (
+          <div data-testid={ `${index}-recipe-card` } key={ index }>
+            <img
+              src={ strMealThumb }
+              alt={ strMeal }
+              data-testid={ `${index}-card-img` }
+            />
+            <h3 data-testid={ `${index}-card-name` }>{strMeal}</h3>
+          </div>
+        ))
+      );
+    }
+  };
 
   return (
     <div>
       {
         renderElements.length !== 0
-          ? renderElements12.map(({ strMealThumb, strMeal }, index) => (
-            <div data-testid={ `${index}-recipe-card` } key={ index }>
-              <img
-                src={ strMealThumb }
-                alt={ strMeal }
-                data-testid={ `${index}-card-img` }
-              />
-              <h3 data-testid={ `${index}-card-name` }>{strMeal}</h3>
-            </div>
-          )) : <span>card vazio</span>
+          ? renderCard() : <span>card vazio</span>
       }
     </div>
   );
