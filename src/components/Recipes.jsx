@@ -21,7 +21,11 @@ function Recipes({ mealOrDrink }) {
     const getList = async () => {
       try {
         const data = await makeFetch(mealOrDrink, 'search.php?s=');
-        setRenderElements(data);
+        if (mealOrDrink === 'cocktail') {
+          setRenderElements(data.drinks);
+        } else if (mealOrDrink === 'meal') {
+          setRenderElements(data.meals);
+        }
       } catch (err) {
         setError(err);
       }

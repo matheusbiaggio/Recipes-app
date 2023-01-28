@@ -17,8 +17,8 @@ function CardMeal({ mealOrDrink }) {
   let renderElements12 = [];
 
   const renderCard = () => {
-    if (renderElements.meals) {
-      renderElements12 = isMeal && renderElements.meals.slice(0, NUMBER_TWELVE);
+    if (renderElements) {
+      renderElements12 = isMeal && renderElements.slice(0, NUMBER_TWELVE);
       return (
         renderElements12.map(({ strMealThumb, strMeal }, index) => (
           <div data-testid={ `${index}-recipe-card` } key={ index }>
