@@ -10,6 +10,7 @@ import Drinks from './pages/Drinks';
 import Profile from './pages/Profile';
 
 import CardElementsProvider from './context/CardElementsProvider';
+import RecipeDetails from './pages/RecipeDetails';
 
 function App() {
   return (
@@ -28,12 +29,12 @@ function App() {
         <Route
           exact
           path="/meals/:id"
-          render={ (props) => <Meals { ...props } id="" /> }
+          render={ (props) => <RecipeDetails { ...props } id="" /> }
         />
         <Route
           exact
           path="/drinks/:id"
-          render={ (props) => <Drinks { ...props } id="" /> }
+          render={ (props) => <RecipeDetails { ...props } id="" /> }
         />
         <Route exact path="/done-recipes" component={ DoneRecipes } />
         <Route exact path="/drinks" component={ Drinks } />
