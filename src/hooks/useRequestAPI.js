@@ -8,7 +8,6 @@ function useRequestAPI() {
     try {
       setIsLoading(true);
       const url = `https://www.the${mealOrDrink}db.com/api/json/v1/1/${endpoint}`;
-      console.log(url);
       const response = await fetch(url);
       const json = await response.json();
       return json;

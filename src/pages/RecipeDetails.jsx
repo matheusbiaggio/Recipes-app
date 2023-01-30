@@ -32,8 +32,6 @@ export default function RecipeDetails() {
     getRecipeDetails();
   }, []);
 
-  console.log(recipes);
-
   return (
     <div>
       a
