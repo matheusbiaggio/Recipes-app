@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import AppContext from '../context/AppContext';
 import useRequestAPI from '../hooks/useRequestAPI';
 
 function CategoryNameBtn({ mealOrDrink }) {
   const [filterBtns, setFilterBtns] = useState({});
   const [error, setError] = useState('');
 
+  const { setRenderElements } = useContext(AppContext);
+
   const { isLoading, makeFetch, errors } = useRequestAPI();
 
   const NUMBER_FIVE = 5;
+  const NUMBER_TWELVE = 12;
 
   let isMeal = '';
 
@@ -16,6 +20,35 @@ function CategoryNameBtn({ mealOrDrink }) {
   } else {
     isMeal = false;
   }
+
+  const getData = async () => {
+    const data = await makeFetch(mealOrDrink, 'search.php?s=');
+    if (mealOrDrink === 'cocktail') {
+      setRenderElements(data.drinks);
+    } else if (mealOrDrink === 'meal') {
+      setRenderElements(data.meals);
+    }
+  };
+
+  const handleClick = async ({ target }) => {
+    if (target.value === 'on') {
+      target.value = 'off';
+      const filterByClick = await makeFetch(mealOrDrink, `filter.php?c=${target.name}`);
+      if (filterByClick) {
+        if (isMeal === true) {
+          setRenderElements(filterByClick.meals.slice(0, NUMBER_TWELVE));
+        } else {
+          setRenderElements(filterByClick.drinks.slice(0, NUMBER_TWELVE));
+        }
+      }
+    } else {
+      await getData();
+    }
+  };
+
+  const removeAllFilters = async () => {
+    await getData();
+  };
 
   let fiveBtns = [];
 
@@ -28,6 +61,9 @@ function CategoryNameBtn({ mealOrDrink }) {
           <button
             type="button"
             key={ index }
+            name={ element.strCategory }
+            value="on"
+            onClick={ handleClick }
             data-testid={ `${element.strCategory}-category-filter` }
           >
             {element.strCategory}
@@ -57,6 +93,13 @@ function CategoryNameBtn({ mealOrDrink }) {
     <div>
       {isLoading && <span>Carregando botões...</span>}
       {makeBtns()}
+      <button
+        type="button"
+        onClick={ removeAllFilters }
+        data-testid="All-category-filter"
+      >
+        All
+      </button>
     </div>
 
   );
