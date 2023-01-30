@@ -1,7 +1,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Footer, { directPage } from '../components/Footer';
+import Footer from '../components/Footer';
 import renderWithRouter from './helpers/renderWithRouter';
 
 // const directPage = (param) => {
@@ -33,10 +33,10 @@ describe('Testes Footer', () => {
 
     expect(history.location.pathname).toBe('/meals');
   });
-//   test('se chama a função direct com parametro especifico', () => {
-//     const { history } = renderWithRouter(<Footer />);
+  //   test('se chama a função direct com parametro especifico', () => {
+  //     const { history } = renderWithRouter(<Footer />);
 
-//     directPage('meals');
+  //     directPage('meals');
 
 //     expect(history.location.pathname).toBe('/meals');
 //   });
