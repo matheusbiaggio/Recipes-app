@@ -20,7 +20,7 @@ function CardDrink({ mealOrDrink }) {
   let renderElements12 = [];
 
   const handleCLick = ({ target }) => {
-    history.push(`/drinks/${target.parentNode.id}`);
+    history.push(`/drinks/${target.id}`);
   };
 
   const renderCard = () => {

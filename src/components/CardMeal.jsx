@@ -19,8 +19,8 @@ function CardMeal({ mealOrDrink }) {
 
   let renderElements12 = [];
 
-  const handleCLick = ({ target }) => {
-    history.push(`/meals/${target.parentNode.id}`);
+  const handleClick = ({ target }) => {
+    history.push(`/meals/${target.id}`);
   };
 
   const renderCard = () => {
@@ -32,7 +32,7 @@ function CardMeal({ mealOrDrink }) {
             data-testid={ `${index}-recipe-card` }
             id={ idMeal }
             key={ index }
-            onClick={ handleCLick }
+            onClick={ handleClick }
           >
             <img
               src={ strMealThumb }
