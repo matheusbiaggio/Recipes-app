@@ -21,7 +21,7 @@ describe('Testes Footer', () => {
 
     expect(history.location.pathname).toBe('/drinks');
   });
-  test('se redireciona para meals ao clicar', () => {
+  test('se a funcao "directPage" foi chamada e redireciona para meals ao clicar', () => {
     const { history } = renderWithRouter(<Footer />);
     const btnMeals = screen.getByRole('button', {
       name: /meals/i,
@@ -33,11 +33,4 @@ describe('Testes Footer', () => {
 
     expect(history.location.pathname).toBe('/meals');
   });
-  //   test('se chama a função direct com parametro especifico', () => {
-  //     const { history } = renderWithRouter(<Footer />);
-
-  //     directPage('meals');
-
-//     expect(history.location.pathname).toBe('/meals');
-//   });
 });
