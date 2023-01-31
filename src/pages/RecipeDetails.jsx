@@ -1,31 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-// import ResponsiveEmbed from 'react-bootstrap/lib/ResponsiveEmbed';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import AdviceCard from '../components/AdviceCard';
 import useRequestAPI from '../hooks/useRequestAPI';
+import '../Css/CssFooter.css';
 
 const MAGIC_NUMBER7 = 7;
 const MAGIC_NUMBER8 = 8;
+const MAGIC_NUMBER6 = 6;
 
 export default function RecipeDetails() {
   const history = useHistory();
   const { makeFetch } = useRequestAPI();
   const [recipes, setRecipes] = useState('');
+  const [advice, setAdvice] = useState({});
+  let mealOrDrink = '';
 
   useEffect(() => {
     const getRecipeDetails = async () => {
-      let mealOrDrink = '';
       let ENDPOINT = '';
-
       if (history.location.pathname.includes('meals')) {
         mealOrDrink = 'meal';
         const id = history.location.pathname.substring(MAGIC_NUMBER7);
         ENDPOINT = `lookup.php?i=${id}`;
         setRecipes(await makeFetch(mealOrDrink, ENDPOINT));
+        setAdvice(await makeFetch('cocktail', 'search.php?s='));
       } else if (history.location.pathname.includes('drinks')) {
         mealOrDrink = 'cocktail';
         const id = history.location.pathname.substring(MAGIC_NUMBER8);
         ENDPOINT = `lookup.php?i=${id}`;
         setRecipes(await makeFetch(mealOrDrink, ENDPOINT));
+        setAdvice(await makeFetch('meal', 'search.php?s='));
       }
     };
 
@@ -42,12 +49,10 @@ export default function RecipeDetails() {
       for (let i = 0; i < Object.keys(data).length; i += 1) {
         if (teste[i][1] && teste[i][0].includes('Ingredient')) {
           arrayIngredients.push(teste[i][1]);
-        }
-        else if (teste[i][1] && teste[i][0].includes('Measure')) {
+        } else if (teste[i][1] && teste[i][0].includes('Measure')) {
           arrayMeasure.push(teste[i][1]);
         }
       }
-      console.log(arrayIngredients);
 
       return (
         <div>
@@ -83,16 +88,12 @@ export default function RecipeDetails() {
                   data-testid="video"
                   src={ data.strYoutube }
                   title={ data.strMeal }
-                  width="853"
-                  height="480"
+                  width="100"
+                  height="200"
                   frameBorder="0"
                   allow="autoplay; encrypted-media"
                   allowFullScreen
                 />
-                {/* <ResponsiveEmbed a16by9>
-                  <embed src={ data.strYoutube } />
-                </ResponsiveEmbed> */}
-
               </div>)
             : (
               <div>
@@ -124,8 +125,64 @@ export default function RecipeDetails() {
     }
   };
 
+  const renderAdviceCard = () => {
+    if (Object.keys(advice).length > 0) {
+      if (history.location.pathname.includes('meals')) {
+        return (
+          advice.drinks.map((element, index) => (
+            index < MAGIC_NUMBER6 && (
+              <div
+                key={ index }
+                data-testid={ `${index}-recommendation-card` }
+              >
+                <AdviceCard
+                  index={ index }
+                  title={ element.strDrink }
+                  img={ element.strDrinkThumb }
+                />
+              </div>)
+          ))
+        );
+      }
+      if (history.location.pathname.includes('drinks')) {
+        return (
+          advice.meals.map((element, index) => (
+            index < MAGIC_NUMBER6 && (
+              <div
+                key={ index }
+                data-testid={ `${index}-recommendation-card` }
+              >
+                <AdviceCard
+                  index={ index }
+                  title={ element.strMeal }
+                  img={ element.strMealThumb }
+                />
+              </div>)
+          ))
+        );
+      }
+    }
+  };
+
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 2,
+  };
+
   return (
-    renderRecipes()
+    <div>
+      {renderRecipes()}
+      <Slider { ...settings }>
+        {renderAdviceCard()}
+      </Slider>
+      {/* {arrayDoneRecipes.length > 0 ?  : <button className="Footer" data-testid="start-recipe-btn">
+        Start Recipe
+      </button> } */}
+    </div>
+
   );
 }
 

@@ -71,3 +71,26 @@ img {
   height: 10%;
   width: 10%;
 }
+
+/* .adviceContent {
+  display: flex;
+  overflow-x: scroll;
+  white-space: wrap;
+  width: 500px;
+} */
+
+/* .adviceContent {
+  width:530px;
+  height:210px;
+  border: 13px solid #bed5cd;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+} */
+
+
+.adviceColum {
+  border: 1px solid red;
+  width: 1000px;
+}
+
