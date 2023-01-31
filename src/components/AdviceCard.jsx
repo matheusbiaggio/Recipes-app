@@ -1,7 +1,6 @@
 import React from 'react';
 
 export default function AdviceCard({ title, image, index }) {
-  console.log(index, title);
   return (
 
     <div>

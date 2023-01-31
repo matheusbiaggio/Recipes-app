@@ -16,9 +16,35 @@ export default function RecipeDetails() {
   const { makeFetch } = useRequestAPI();
   const [recipes, setRecipes] = useState('');
   const [advice, setAdvice] = useState({});
+  const [doneRecipes, setDoneRecipes] = useState([]);
+  const [inProgressRecipes, setInProgressRecipes] = useState([]);
+  const [nameButton, setNameButton] = useState('Start Recipe');
+  const [showBtn, setShowBtn] = useState(true);
+
   let mealOrDrink = '';
 
+  const getLocalStorage = () => {
+    if (localStorage.getItem('doneRecipes')) {
+      setDoneRecipes(JSON.parse(localStorage.getItem('doneRecipes')));
+    } if (localStorage.getItem('inProgressRecipes')) {
+      setInProgressRecipes(JSON.parse(localStorage.getItem('inProgressRecipes')));
+    }
+  };
+
+  const filtroParaPegarIdDoneRecipes = false;
+  const filtroParaPegarIdContinueRecipes = false;
+
+  const changeNameBtn = () => {
+    if (filtroParaPegarIdDoneRecipes) {
+      setShowBtn(false);
+    } else if (filtroParaPegarIdContinueRecipes) {
+      setNameButton('Continue Recipe');
+    }
+  };
+
   useEffect(() => {
+    getLocalStorage();
+    changeNameBtn();
     const getRecipeDetails = async () => {
       let ENDPOINT = '';
       if (history.location.pathname.includes('meals')) {
@@ -38,6 +64,10 @@ export default function RecipeDetails() {
 
     getRecipeDetails();
   }, []);
+
+  useEffect(() => {
+    changeNameBtn();
+  }, [doneRecipes, inProgressRecipes]);
 
   const renderRecipes = () => {
     if (recipes) {
@@ -178,11 +208,10 @@ export default function RecipeDetails() {
       <Slider { ...settings }>
         {renderAdviceCard()}
       </Slider>
-      {/* {arrayDoneRecipes.length > 0 ?  : <button className="Footer" data-testid="start-recipe-btn">
-        Start Recipe
-      </button> } */}
+      {showBtn && (
+        <button className="Footer" data-testid="start-recipe-btn">
+          {nameButton}
+        </button>)}
     </div>
-
   );
 }
-
