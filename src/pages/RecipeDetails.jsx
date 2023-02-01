@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import AdviceCard from '../components/AdviceCard';
 import useRequestAPI from '../hooks/useRequestAPI';
 import '../Css/CssFooter.css';
@@ -16,35 +13,76 @@ export default function RecipeDetails() {
   const { makeFetch } = useRequestAPI();
   const [recipes, setRecipes] = useState('');
   const [advice, setAdvice] = useState({});
-  const [doneRecipes, setDoneRecipes] = useState([]);
-  const [inProgressRecipes, setInProgressRecipes] = useState([]);
   const [nameButton, setNameButton] = useState('Start Recipe');
   const [showBtn, setShowBtn] = useState(true);
 
   let mealOrDrink = '';
+  let doneRecipes = [];
+  let inProgressRecipes = '';
+  let getIdContinueRecipe = [];
+  let getIdDoneRecipe = [];
 
-  const getLocalStorage = () => {
-    if (localStorage.getItem('doneRecipes')) {
-      setDoneRecipes(JSON.parse(localStorage.getItem('doneRecipes')));
-    } if (localStorage.getItem('inProgressRecipes')) {
-      setInProgressRecipes(JSON.parse(localStorage.getItem('inProgressRecipes')));
+  const mockStorage = {
+    drinks: { 13501: ['agua'], 2222: ['açucar'] },
+    meals: { 111: ['carne'], 222: ['arroz'] },
+  };
+
+  const mockDoneRecipeStorage = [{ id: 15997 }];
+
+  const verifyIdInLocalStorage = () => {
+    if (recipes && doneRecipes && inProgressRecipes) {
+      const data = recipes.meals ? recipes.meals[0] : recipes.drinks[0];
+      if (doneRecipes.mockDoneRecipeStorage.length > 0) {
+        if (history.location.pathname.includes('drinks')) {
+          const filterId = doneRecipes.mockDoneRecipeStorage.filter((element) => (
+            Number(element.id) === Number(data.idDrink)
+          ));
+          getIdDoneRecipe = filterId;
+        } else if (history.location.pathname.includes('meals')) {
+          const filterId = doneRecipes.mockDoneRecipeStorage.filter((element) => (
+            Number(element.id) === Number(data.idMeal)
+          ));
+          getIdDoneRecipe = filterId;
+        }
+      }
+      if (Object.keys(inProgressRecipes.mockStorage.drinks).length > 0
+        || Object.keys(inProgressRecipes.mockStorage.meals).length > 0) {
+        let filterId = '';
+        if (history.location.pathname.includes('drinks')) {
+          filterId = Object.keys(inProgressRecipes.mockStorage.drinks)
+            .filter((element) => (
+              element === data.idDrink
+            ));
+        } else if (history.location.pathname.includes('meals')) {
+          filterId = Object.keys(inProgressRecipes.mockStorage.meals)
+            .filter((element) => (
+              element === Object.keys(data.idMeal)
+            ));
+        }
+        getIdContinueRecipe = filterId;
+      }
     }
   };
 
-  const filtroParaPegarIdDoneRecipes = false;
-  const filtroParaPegarIdContinueRecipes = false;
+  const getLocalStorage = () => {
+    localStorage.setItem('inProgressRecipes', JSON.stringify({ mockStorage }));
+    localStorage.setItem('doneRecipes', JSON.stringify({ mockDoneRecipeStorage }));
+    if (localStorage.getItem('doneRecipes')) {
+      doneRecipes = (JSON.parse(localStorage.getItem('doneRecipes')));
+    } if (localStorage.getItem('inProgressRecipes')) {
+      inProgressRecipes = (JSON.parse(localStorage.getItem('inProgressRecipes')));
+    }
+  };
 
   const changeNameBtn = () => {
-    if (filtroParaPegarIdDoneRecipes) {
+    if (getIdDoneRecipe.length > 0) {
       setShowBtn(false);
-    } else if (filtroParaPegarIdContinueRecipes) {
+    } else if (getIdDoneRecipe.length === 0 && getIdContinueRecipe.length > 0) {
       setNameButton('Continue Recipe');
     }
   };
 
   useEffect(() => {
-    getLocalStorage();
-    changeNameBtn();
     const getRecipeDetails = async () => {
       let ENDPOINT = '';
       if (history.location.pathname.includes('meals')) {
@@ -61,26 +99,28 @@ export default function RecipeDetails() {
         setAdvice(await makeFetch('meal', 'search.php?s='));
       }
     };
-
     getRecipeDetails();
   }, []);
 
   useEffect(() => {
+    getLocalStorage();
+    verifyIdInLocalStorage();
     changeNameBtn();
-  }, [doneRecipes, inProgressRecipes]);
+  }, [recipes]);
 
   const renderRecipes = () => {
     if (recipes) {
       const data = recipes.meals ? recipes.meals[0] : recipes.drinks[0];
       const isMeal = !!recipes.meals;
-      const teste = Object.entries((data));
+      const keysAndValuesData = Object.entries((data));
       const arrayIngredients = [];
       const arrayMeasure = [];
       for (let i = 0; i < Object.keys(data).length; i += 1) {
-        if (teste[i][1] && teste[i][0].includes('Ingredient')) {
-          arrayIngredients.push(teste[i][1]);
-        } else if (teste[i][1] && teste[i][0].includes('Measure')) {
-          arrayMeasure.push(teste[i][1]);
+        if (keysAndValuesData[i][1] && keysAndValuesData[i][0].includes('Ingredient')) {
+          arrayIngredients.push(keysAndValuesData[i][1]);
+        } else if (keysAndValuesData[i][1]
+          && keysAndValuesData[i][0].includes('Measure')) {
+          arrayMeasure.push(keysAndValuesData[i][1]);
         }
       }
 
@@ -120,7 +160,6 @@ export default function RecipeDetails() {
                   title={ data.strMeal }
                   width="100"
                   height="200"
-                  frameBorder="0"
                   allow="autoplay; encrypted-media"
                   allowFullScreen
                 />
@@ -194,20 +233,12 @@ export default function RecipeDetails() {
     }
   };
 
-  const settings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 2,
-    slidesToScroll: 2,
-  };
-
   return (
     <div>
       {renderRecipes()}
-      <Slider { ...settings }>
+      <div className="container-advice">
         {renderAdviceCard()}
-      </Slider>
+      </div>
       {showBtn && (
         <button className="Footer" data-testid="start-recipe-btn">
           {nameButton}
