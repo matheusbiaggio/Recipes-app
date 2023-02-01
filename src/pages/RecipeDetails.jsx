@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import AdviceCard from '../components/AdviceCard';
 import useRequestAPI from '../hooks/useRequestAPI';
 import '../Css/CssFooter.css';
@@ -233,6 +233,13 @@ export default function RecipeDetails() {
     }
   };
 
+  const handleClick = () => {
+    if (nameButton === 'Start Recipe') {
+      console.log('clickou');
+      history.push(`${history.location.pathname}/in-progress`);
+    }
+  };
+
   return (
     <div>
       {renderRecipes()}
@@ -240,7 +247,11 @@ export default function RecipeDetails() {
         {renderAdviceCard()}
       </div>
       {showBtn && (
-        <button className="Footer" data-testid="start-recipe-btn">
+        <button
+          onClick={ handleClick }
+          className="Footer"
+          data-testid="start-recipe-btn"
+        >
           {nameButton}
         </button>)}
     </div>
