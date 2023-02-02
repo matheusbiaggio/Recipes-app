@@ -7,6 +7,8 @@ import '../Css/CssFooter.css';
 import { verifyDoneRecipes, verifyInProgressRecipes } from '../Services/VerifyAll';
 import { createObjectDrink, createObjectMeal } from '../Services/CreateObject';
 import { getLocalStorageGeneric } from '../Services/getLocalStorage';
+import RecipeDetailsMeal from '../components/RecipeDetailsMeal';
+import RecipeDetailsDrink from '../components/RecipeDetailsDrink';
 
 const MAGIC_NUMBER7 = 7;
 const MAGIC_NUMBER8 = 8;
@@ -42,7 +44,6 @@ export default function RecipeDetails() {
   };
 
   const getLocalStorage = () => {
-    setLocalStorage();
     if (localStorage.getItem('doneRecipes')) {
       doneRecipes = (JSON.parse(localStorage.getItem('doneRecipes')));
     } if (localStorage.getItem('inProgressRecipes')) {
@@ -57,32 +58,6 @@ export default function RecipeDetails() {
       setNameButton('Continue Recipe');
     }
   };
-
-  useEffect(() => {
-    const getRecipeDetails = async () => {
-      let ENDPOINT = '';
-      if (history.location.pathname.includes('meals')) {
-        mealOrDrink = 'meal';
-        const id = history.location.pathname.substring(MAGIC_NUMBER7);
-        ENDPOINT = `lookup.php?i=${id}`;
-        setRecipes(await makeFetch(mealOrDrink, ENDPOINT));
-        setAdvice(await makeFetch('cocktail', 'search.php?s='));
-      } else if (history.location.pathname.includes('drinks')) {
-        mealOrDrink = 'cocktail';
-        const id = history.location.pathname.substring(MAGIC_NUMBER8);
-        ENDPOINT = `lookup.php?i=${id}`;
-        setRecipes(await makeFetch(mealOrDrink, ENDPOINT));
-        setAdvice(await makeFetch('meal', 'search.php?s='));
-      }
-    };
-    getRecipeDetails();
-  }, []);
-
-  useEffect(() => {
-    getLocalStorage();
-    verifyIdInLocalStorage();
-    changeNameBtn();
-  }, [recipes]);
 
   const renderRecipes = () => {
     if (recipes) {
@@ -102,69 +77,21 @@ export default function RecipeDetails() {
 
       return (
         <div>
-          { data && isMeal
-            ? (
-              <div>
-                <img src={ data.strMealThumb } alt="" data-testid="recipe-photo" />
-                <h2 data-testid="recipe-title">
-                  { data.strMeal }
-                </h2>
-                <span data-testid="recipe-category">
-                  Title:
-                  { data.strCategory }
-                </span>
-                {
-                  arrayIngredients.map((ingredient, index) => (
-                    <span
-                      key={ index }
-                      data-testid={ `${index}-ingredient-name-and-measure` }
-                    >
-                      ingredientes:
-                      { ingredient }
-                      { arrayMeasure[index] }
-                    </span>
-                  ))
-                }
-                <span data-testid="instructions">
-                  instruções:
-                  { data.strInstructions }
-                </span>
-                <br />
-                <iframe
-                  data-testid="video"
-                  src={ data.strYoutube }
-                  title={ data.strMeal }
-                  width="100"
-                  height="200"
-                  allow="autoplay; encrypted-media"
-                  allowFullScreen
-                />
-              </div>)
-            : (
-              <div>
-                <img src={ data.strDrinkThumb } alt="" data-testid="recipe-photo" />
-                <h2 data-testid="recipe-title">
-                  { data.strDrink }
-                </h2>
-                <span data-testid="recipe-category">
-                  { data.strAlcoholic }
-                </span>
-                {
-                  arrayIngredients.map((ingredient, index) => (
-                    <span
-                      key={ index }
-                      data-testid={ `${index}-ingredient-name-and-measure` }
-                    >
-                      ingredientes:
-                      { ingredient }
-                      { arrayMeasure[index] }
-                    </span>
-                  ))
-                }
-                <span data-testid="instructions">
-                  { data.strInstructions }
-                </span>
-              </div>)}
+          {
+            data && isMeal
+              ? (
+                <RecipeDetailsMeal
+                  data={ data }
+                  arrayIngredients={ arrayIngredients }
+                  arrayMeasure={ arrayMeasure }
+                />)
+              : (
+                <RecipeDetailsDrink
+                  data={ data }
+                  arrayIngredients={ arrayIngredients }
+                  arrayMeasure={ arrayMeasure }
+                />)
+          }
         </div>
       );
     }
@@ -232,6 +159,33 @@ export default function RecipeDetails() {
       }
     }
   };
+
+  useEffect(() => {
+    setLocalStorage();
+    const getRecipeDetails = async () => {
+      let ENDPOINT = '';
+      if (history.location.pathname.includes('meals')) {
+        mealOrDrink = 'meal';
+        const id = history.location.pathname.substring(MAGIC_NUMBER7);
+        ENDPOINT = `lookup.php?i=${id}`;
+        setRecipes(await makeFetch(mealOrDrink, ENDPOINT));
+        setAdvice(await makeFetch('cocktail', 'search.php?s='));
+      } else if (history.location.pathname.includes('drinks')) {
+        mealOrDrink = 'cocktail';
+        const id = history.location.pathname.substring(MAGIC_NUMBER8);
+        ENDPOINT = `lookup.php?i=${id}`;
+        setRecipes(await makeFetch(mealOrDrink, ENDPOINT));
+        setAdvice(await makeFetch('meal', 'search.php?s='));
+      }
+    };
+    getRecipeDetails();
+  }, []);
+
+  useEffect(() => {
+    getLocalStorage();
+    verifyIdInLocalStorage();
+    changeNameBtn();
+  }, [recipes]);
 
   return (
     <div>
