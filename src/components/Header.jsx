@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Proptypes from 'prop-types';
 import SearchBar from './SearchBar';
+import profileIcon from '../images/profileIcon.svg';
+import searchIcon from '../images/searchIcon.svg';
 
 export default function Header({ title }) {
   const [searchBar, setSearchBar] = useState(false);
   const [showButton, setShowButton] = useState(true);
   const history = useHistory();
 
-  const handleNavegation = () => {
+  const handleNavigation = () => {
     history.push('/profile');
   };
 
@@ -22,35 +24,36 @@ export default function Header({ title }) {
     }
   }, [history.location.pathname]);
 
+  useEffect(() => {
+    if (
+      history.location.pathname === '/done-recipes'
+    || history.location.pathname === '/favorite-recipes'
+    || history.location.pathname === '/profile'
+    ) {
+      setShowButton(false);
+    }
+  }, []);
+
   return (
     <div>
-      <h1
-        data-testid="page-title"
-      >
-        { title }
-      </h1>
-      <button
-        onClick={ handleNavegation }
-      >
-        <img
-          src="src/images/profileIcon.svg"
-          alt="Profile"
-          data-testid="profile-top-btn"
-        />
-      </button>
+      <h1 data-testid="page-title">{ title }</h1>
+      <img
+        src={ profileIcon }
+        alt="Profile"
+        data-testid="profile-top-btn"
+        onClick={ () => (handleNavigation()) }
+        aria-hidden="true"
+      />
       {
         showButton
         && (
-          <button
-            type="button"
+          <img
+            src={ searchIcon }
+            alt="Search"
+            data-testid="search-top-btn"
             onClick={ () => setSearchBar(!searchBar) }
-          >
-            <img
-              src="src/images/searchIcon.svg"
-              alt="Search"
-              data-testid="search-top-btn"
-            />
-          </button>)
+            aria-hidden="true"
+          />)
       }
       { searchBar && <SearchBar />}
 

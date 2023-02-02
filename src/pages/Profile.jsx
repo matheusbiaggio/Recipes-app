@@ -18,13 +18,16 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    setEmail(JSON.parse(localStorage.getItem('user')));
+    const teste = JSON.parse(localStorage.getItem('user'));
+    if (teste.email) {
+      setEmail(teste.email);
+    }
   }, []);
 
   return (
     <div>
       <Header title="Profile" />
-      <h2 data-testid="profile-email">{ email.email }</h2>
+      <h2 data-testid="profile-email">{ email }</h2>
       <button
         type="button"
         name="done-recipes"
