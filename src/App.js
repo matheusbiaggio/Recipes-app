@@ -11,6 +11,7 @@ import Profile from './pages/Profile';
 
 import CardElementsProvider from './context/CardElementsProvider';
 import RecipeDetails from './pages/RecipeDetails';
+import ProgressRecipes from './pages/ProgressRecipes';
 
 function App() {
   return (
@@ -33,8 +34,18 @@ function App() {
         />
         <Route
           exact
+          path="/meals/:id/in-progress"
+          render={ (props) => <ProgressRecipes { ...props } id="" /> }
+        />
+        <Route
+          exact
           path="/drinks/:id"
           render={ (props) => <RecipeDetails { ...props } id="" /> }
+        />
+        <Route
+          exact
+          path="/drinks/:id/in-progress"
+          render={ (props) => <ProgressRecipes { ...props } id="" /> }
         />
         <Route exact path="/done-recipes" component={ DoneRecipes } />
         <Route exact path="/drinks" component={ Drinks } />
