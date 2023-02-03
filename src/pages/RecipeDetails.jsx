@@ -28,6 +28,7 @@ export default function RecipeDetails() {
   const [filterRecipe, setFilterRecipe] = useState([]);
   const [favoritesRecipes, setFavoritesRecipes] = useState([]);
   const [isShared, setIsShared] = useState(false);
+
   let mealOrDrink = '';
   let doneRecipes = [];
   let inProgressRecipes = '';
