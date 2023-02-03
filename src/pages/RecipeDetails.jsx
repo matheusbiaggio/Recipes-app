@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import copy from 'clipboard-copy';
 import AdviceCard from '../components/AdviceCard';
 import useRequestAPI from '../hooks/useRequestAPI';
 import setLocalStorage from '../Services/MockLocalStorage';
@@ -27,8 +28,7 @@ export default function RecipeDetails() {
   const [filterRecipe, setFilterRecipe] = useState([]);
   const [favoritesRecipes, setFavoritesRecipes] = useState([]);
   const [isShared, setIsShared] = useState(false);
-  // eslint-disable-next-line global-require
-  const copy = require('clipboard-copy');
+
   let mealOrDrink = '';
   let doneRecipes = [];
   let inProgressRecipes = '';
