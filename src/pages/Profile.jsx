@@ -14,6 +14,9 @@ export default function Profile() {
 
   const logout = () => {
     localStorage.removeItem('user');
+    localStorage.removeItem('inProgressRecipes');
+    localStorage.removeItem('doneRecipes');
+    localStorage.removeItem('favoriteRecipes');
     history.push('/');
   };
 
