@@ -6,13 +6,16 @@ import setLocalStorage from '../Services/MockLocalStorage';
 import '../Css/CssFooter.css';
 import { verifyDoneRecipes, verifyInProgressRecipes } from '../Services/VerifyAll';
 import { createObjectDrink, createObjectMeal } from '../Services/CreateObject';
-import { getLocalStorageGeneric } from '../Services/getLocalStorage';
+import { incrementLocalStorage } from '../Services/incrementLocalStorage';
 import RecipeDetailsMeal from '../components/RecipeDetailsMeal';
 import RecipeDetailsDrink from '../components/RecipeDetailsDrink';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
-const MAGIC_NUMBER7 = 7;
 const MAGIC_NUMBER8 = 8;
+const MAGIC_NUMBER7 = 7;
 const MAGIC_NUMBER6 = 6;
+const MAGIC_NUMBER5 = 5;
 
 export default function RecipeDetails() {
   const history = useHistory();
@@ -21,12 +24,17 @@ export default function RecipeDetails() {
   const [advice, setAdvice] = useState({});
   const [nameButton, setNameButton] = useState('Start Recipe');
   const [showBtn, setShowBtn] = useState(true);
+  const [filterRecipe, setFilterRecipe] = useState([]);
+  const [favoritesRecipes, setFavoritesRecipes] = useState([]);
 
   let mealOrDrink = '';
   let doneRecipes = [];
   let inProgressRecipes = '';
   let getIdContinueRecipe = [];
   let getIdDoneRecipe = [];
+  // let favoritesRecipes = [];
+
+  // let favoritesContainer = [false];
 
   const verifyIdInLocalStorage = () => {
     if (recipes && doneRecipes && inProgressRecipes) {
@@ -48,6 +56,8 @@ export default function RecipeDetails() {
       doneRecipes = (JSON.parse(localStorage.getItem('doneRecipes')));
     } if (localStorage.getItem('inProgressRecipes')) {
       inProgressRecipes = (JSON.parse(localStorage.getItem('inProgressRecipes')));
+    } if (localStorage.getItem('favoriteRecipes')) {
+      setFavoritesRecipes(JSON.parse(localStorage.getItem('favoriteRecipes')));
     }
   };
 
@@ -143,37 +153,41 @@ export default function RecipeDetails() {
   };
 
   const saveFavorite = () => {
-    if (recipes) {
-      let newFavoriteRecipe = '';
-      if (recipes.drinks) {
-        newFavoriteRecipe = createObjectDrink(recipes.drinks);
-      } else {
-        newFavoriteRecipe = createObjectMeal(recipes.meals);
-      }
-
-      if (localStorage.getItem('favoriteRecipes')) {
-        getLocalStorageGeneric();
-        localStorage.setItem('favoriteRecipes', JSON.stringify(favorites));
-      } else {
-        localStorage.setItem('favoriteRecipes', JSON.stringify([newFavoriteRecipe]));
-      }
+    const id = history.location.pathname
+      .substring(history.location.pathname.length - MAGIC_NUMBER5);
+    let newFavoriteRecipe = '';
+    if (recipes.drinks) {
+      newFavoriteRecipe = createObjectDrink(recipes.drinks);
+    } else {
+      newFavoriteRecipe = createObjectMeal(recipes.meals);
     }
+
+    if (localStorage.getItem('favoriteRecipes')) {
+      incrementLocalStorage(newFavoriteRecipe);
+    } else {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([newFavoriteRecipe]));
+    }
+    setFavoritesRecipes(JSON.parse(localStorage.getItem('favoriteRecipes')));
+    // console.log(favoritesRecipes);
+    setFilterRecipe(favoritesRecipes
+      .filter((element) => Number(element.id) === Number(id)));
   };
 
   useEffect(() => {
     setLocalStorage();
+    getLocalStorage();
     const getRecipeDetails = async () => {
       let ENDPOINT = '';
       if (history.location.pathname.includes('meals')) {
         mealOrDrink = 'meal';
-        const id = history.location.pathname.substring(MAGIC_NUMBER7);
-        ENDPOINT = `lookup.php?i=${id}`;
+        const id2 = history.location.pathname.substring(MAGIC_NUMBER7);
+        ENDPOINT = `lookup.php?i=${id2}`;
         setRecipes(await makeFetch(mealOrDrink, ENDPOINT));
         setAdvice(await makeFetch('cocktail', 'search.php?s='));
       } else if (history.location.pathname.includes('drinks')) {
         mealOrDrink = 'cocktail';
-        const id = history.location.pathname.substring(MAGIC_NUMBER8);
-        ENDPOINT = `lookup.php?i=${id}`;
+        const id3 = history.location.pathname.substring(MAGIC_NUMBER8);
+        ENDPOINT = `lookup.php?i=${id3}`;
         setRecipes(await makeFetch(mealOrDrink, ENDPOINT));
         setAdvice(await makeFetch('meal', 'search.php?s='));
       }
@@ -182,10 +196,13 @@ export default function RecipeDetails() {
   }, []);
 
   useEffect(() => {
-    getLocalStorage();
     verifyIdInLocalStorage();
     changeNameBtn();
-  }, [recipes]);
+    const id = history.location.pathname
+      .substring(history.location.pathname.length - MAGIC_NUMBER5);
+    setFilterRecipe(favoritesRecipes
+      .filter((element) => Number(element.id) === Number(id)));
+  }, [recipes, favoritesRecipes]);
 
   return (
     <div>
@@ -204,9 +221,22 @@ export default function RecipeDetails() {
       <button data-testid="share-btn">
         Share Recipe
       </button>
-      <button onClick={ saveFavorite } data-testid="favorite-btn">
-        Favorite Recipe
-      </button>
+      { console.log(filterRecipe)}
+
+      { filterRecipe.length > 0 ? (
+        <img
+          data-testid="favorite-btn"
+          src={ blackHeartIcon }
+          alt="blackHeartIcon"
+        />)
+        : (
+          <img
+            onClick={ () => saveFavorite() }
+            aria-hidden="true"
+            data-testid="favorite-btn"
+            src={ whiteHeartIcon }
+            alt="whiteHeart"
+          />)}
     </div>
   );
 }
