@@ -3,10 +3,10 @@
   justify-content: space-between;
   bottom: 0;
   position: fixed;
-  background-color: blueviolet;
-  width: 100%;
+  /* background-color: blueviolet; */
+  /* width: 100%; */
   height: 7%;
-  
+  margin-left: 50%;
 }
 
 .Footer img {

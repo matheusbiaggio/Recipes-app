@@ -11,11 +11,11 @@ import RecipeDetailsMeal from '../components/RecipeDetailsMeal';
 import RecipeDetailsDrink from '../components/RecipeDetailsDrink';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
 
 const MAGIC_NUMBER8 = 8;
 const MAGIC_NUMBER7 = 7;
 const MAGIC_NUMBER6 = 6;
-const MAGIC_NUMBER5 = 5;
 
 export default function RecipeDetails() {
   const history = useHistory();
@@ -26,15 +26,17 @@ export default function RecipeDetails() {
   const [showBtn, setShowBtn] = useState(true);
   const [filterRecipe, setFilterRecipe] = useState([]);
   const [favoritesRecipes, setFavoritesRecipes] = useState([]);
-
+  const [isShared, setIsShared] = useState(false);
+  // eslint-disable-next-line global-require
+  const copy = require('clipboard-copy');
   let mealOrDrink = '';
   let doneRecipes = [];
   let inProgressRecipes = '';
   let getIdContinueRecipe = [];
   let getIdDoneRecipe = [];
-  // let favoritesRecipes = [];
 
-  // let favoritesContainer = [false];
+  const splitURL = history.location.pathname.split('/');
+  const id = splitURL[splitURL.length - 1];
 
   const verifyIdInLocalStorage = () => {
     if (recipes && doneRecipes && inProgressRecipes) {
@@ -153,10 +155,8 @@ export default function RecipeDetails() {
   };
 
   const saveFavorite = () => {
-    const id = history.location.pathname
-      .substring(history.location.pathname.length - MAGIC_NUMBER5);
     let newFavoriteRecipe = '';
-    if (recipes.drinks) {
+    if (history.location.pathname.split('/')[1] === 'drinks') {
       newFavoriteRecipe = createObjectDrink(recipes.drinks);
     } else {
       newFavoriteRecipe = createObjectMeal(recipes.meals);
@@ -168,9 +168,22 @@ export default function RecipeDetails() {
       localStorage.setItem('favoriteRecipes', JSON.stringify([newFavoriteRecipe]));
     }
     setFavoritesRecipes(JSON.parse(localStorage.getItem('favoriteRecipes')));
-    // console.log(favoritesRecipes);
     setFilterRecipe(favoritesRecipes
-      .filter((element) => Number(element.id) === Number(id)));
+      .filter((element) => (Number(element.id) === Number(id))));
+  };
+
+  const removeFavorite = () => {
+    const filterId = favoritesRecipes
+      .filter((element) => Number(element.id) !== Number(id));
+    localStorage.removeItem('favoriteRecipes');
+    localStorage.setItem('favoriteRecipes', JSON.stringify(filterId));
+    setFavoritesRecipes(filterId);
+    setFilterRecipe(filterId);
+  };
+
+  const shareRecipe = () => {
+    setIsShared(true);
+    copy(`http://localhost:3000${history.location.pathname}`);
   };
 
   useEffect(() => {
@@ -198,8 +211,6 @@ export default function RecipeDetails() {
   useEffect(() => {
     verifyIdInLocalStorage();
     changeNameBtn();
-    const id = history.location.pathname
-      .substring(history.location.pathname.length - MAGIC_NUMBER5);
     setFilterRecipe(favoritesRecipes
       .filter((element) => Number(element.id) === Number(id)));
   }, [recipes, favoritesRecipes]);
@@ -218,25 +229,21 @@ export default function RecipeDetails() {
         >
           {nameButton}
         </button>)}
-      <button data-testid="share-btn">
-        Share Recipe
-      </button>
-      { console.log(filterRecipe)}
-
-      { filterRecipe.length > 0 ? (
-        <img
-          data-testid="favorite-btn"
-          src={ blackHeartIcon }
-          alt="blackHeartIcon"
-        />)
-        : (
-          <img
-            onClick={ () => saveFavorite() }
-            aria-hidden="true"
-            data-testid="favorite-btn"
-            src={ whiteHeartIcon }
-            alt="whiteHeart"
-          />)}
+      <img
+        data-testid="share-btn"
+        onClick={ () => shareRecipe() }
+        aria-hidden="true"
+        src={ shareIcon }
+        alt="shareIcon"
+      />
+      {isShared && <span>Link copied!</span> }
+      <img
+        onClick={ () => (filterRecipe.length > 0 ? removeFavorite() : saveFavorite()) }
+        aria-hidden="true"
+        data-testid="favorite-btn"
+        src={ filterRecipe.length > 0 ? blackHeartIcon : whiteHeartIcon }
+        alt={ filterRecipe.length > 0 ? 'blackHeartIcon' : 'whiteHeartIcon' }
+      />
     </div>
   );
 }
