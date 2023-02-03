@@ -11,9 +11,7 @@ import renderWithRouter from './helpers/renderWithRouter';
 describe('Testes Footer', () => {
   test('se redireciona para drinks ao clicar', () => {
     const { history } = renderWithRouter(<Footer />);
-    const btnDrink = screen.getByRole('button', {
-      name: /drinks/i,
-    });
+    const btnDrink = screen.getByTestId('drinks-bottom-btn');
 
     expect(btnDrink).toBeInTheDocument();
 
@@ -23,9 +21,7 @@ describe('Testes Footer', () => {
   });
   test('se a funcao "directPage" foi chamada e redireciona para meals ao clicar', () => {
     const { history } = renderWithRouter(<Footer />);
-    const btnMeals = screen.getByRole('button', {
-      name: /meals/i,
-    });
+    const btnMeals = screen.getByTestId('meals-bottom-btn');
 
     expect(btnMeals).toBeInTheDocument();
 
