@@ -1,5 +1,6 @@
 import { act } from 'react-dom/test-utils';
 import { fireEvent, screen } from '@testing-library/react';
+import clipboardCopy from 'clipboard-copy';
 import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
 
@@ -11,6 +12,8 @@ const START_RECIPE_BUTTON = 'start-recipe-btn';
 const RECIPE_CATEGORY_ID = 'recipe-category';
 const RECIPE_INSTRUCTION_ID = 'instructions';
 const RECOMMENDATION_0_ID = '0-recommendation-card';
+
+jest.mock('clipboard-copy');
 
 describe('Testando o componente "RecipeDetails:"', () => {
   test('Testa se renderiza os detalhes corretamente [MEALS]:', async () => {
@@ -30,6 +33,8 @@ describe('Testando o componente "RecipeDetails:"', () => {
 
     const shareBtn = await screen.findByTestId(SHARE_BUTTON);
     expect(shareBtn).toBeDefined();
+    fireEvent.click(shareBtn);
+    expect(clipboardCopy).toHaveBeenCalled();
 
     const ingredientZero = await screen.findByTestId(INGREDIENT_NAME_0);
     expect(ingredientZero).toBeDefined();
@@ -65,6 +70,8 @@ describe('Testando o componente "RecipeDetails:"', () => {
 
     const shareBtn = await screen.findByTestId(SHARE_BUTTON);
     expect(shareBtn).toBeDefined();
+    fireEvent.click(shareBtn);
+    expect(clipboardCopy).toHaveBeenCalled();
 
     const ingredientZero = await screen.findByTestId(INGREDIENT_NAME_0);
     expect(ingredientZero).toBeDefined();
