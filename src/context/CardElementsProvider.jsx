@@ -3,6 +3,9 @@ import AppContext from './AppContext';
 
 function CardElementsProvider({ children }) {
   const [renderElements, setRenderElements] = useState([]);
+  const [favoriteRecipesLS, setFavoriteRecipesLS] = useState([]);
+  const [mealsFavoriteRecipes, setMealsFavoriteRecipes] = useState([]);
+  const [drinksFavoriteRecipes, setDrinksFavoriteRecipes] = useState([]);
 
   const NUMBER_TWELVE = 12;
 
@@ -33,8 +36,20 @@ function CardElementsProvider({ children }) {
     renderElements,
     setRenderElements,
     verifyElementList,
+    favoriteRecipesLS,
+    setFavoriteRecipesLS,
+    mealsFavoriteRecipes,
+    setMealsFavoriteRecipes,
+    drinksFavoriteRecipes,
+    setDrinksFavoriteRecipes,
   }), [renderElements,
-    setRenderElements]);
+    setRenderElements,
+    favoriteRecipesLS,
+    setFavoriteRecipesLS,
+    mealsFavoriteRecipes,
+    setMealsFavoriteRecipes,
+    drinksFavoriteRecipes,
+    setDrinksFavoriteRecipes]);
 
   return (
     <AppContext.Provider value={ values }>

@@ -21,9 +21,11 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    const teste = JSON.parse(localStorage.getItem('user'));
-    if (teste.email) {
-      setEmail(teste.email);
+    if (localStorage.getItem('user')) {
+      const emailLS = JSON.parse(localStorage.getItem('user'));
+      if (emailLS.email) {
+        setEmail(emailLS.email);
+      }
     }
   }, []);
 
