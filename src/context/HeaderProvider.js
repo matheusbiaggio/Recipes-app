@@ -9,26 +9,18 @@ export default function HeaderProvider({ children }) {
   const [search, setSearch] = useState(false);
 
   useEffect(() => {
-    switch (history.location.pathname) {
-    case '/meals':
+    if (history.location.pathname === '/meals') {
       setTitle('Meals');
       setSearch(true);
-      break;
-    case '/drinks':
+    } else if (history.location.pathname === '/drinks') {
       setTitle('Drinks');
       setSearch(true);
-      break;
-    case '/profile':
+    } else if (history.location.pathname === '/profile') {
       setTitle('Profile');
-      break;
-    case '/done-recipes':
+    } else if (history.location.pathname === '/done-recipes') {
       setTitle('Done Recipes');
-      break;
-    case '/favorite-recipes':
+    } else if (history.location.pathname === '/favorite-recipes') {
       setTitle('Favorite Recipes');
-      break;
-    default:
-      console.log('Erro');
     }
   }, [history, setTitle, title]);
 
