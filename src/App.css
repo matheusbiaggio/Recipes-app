@@ -222,3 +222,10 @@ input {
 .recipesAll {
   text-align: center;
 }
+
+.startBtn {
+  bottom: 0;
+  display: flex;
+  margin-left: 50%;
+  position: fixed;
+}
