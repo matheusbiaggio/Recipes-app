@@ -1,22 +1,24 @@
 import { useState } from 'react';
+import useRequestAPI from './useRequestAPI';
 
 export default function useStateContainer() {
-  const [mealOrDrink, setMealOrDrink] = useState('');
-  const [doneRecipes, setDoneRecipes] = useState([]);
-  const [inProgressRecipes, setInProgressRecipes] = useState('');
-  const [getIdContinueRecipe, setGetIdContinueRecipe] = useState([]);
-  const [getIdDoneRecipe, setGetIdDoneRecipe] = useState([]);
+  const { makeFetch } = useRequestAPI();
+  const [recipeInProgress, setRecipeInProgress] = useState('');
+
+  const getRecipeDetails = async ({ rota, id }) => {
+    let ENDPOINT = '';
+    if (rota.includes('meals')) {
+      ENDPOINT = `lookup.php?i=${id}`;
+      setRecipes(await makeFetch('meal', ENDPOINT));
+    } else if (rota.includes('drinks')) {
+      ENDPOINT = `lookup.php?i=${id}`;
+      setRecipes(await makeFetch('cocktail', ENDPOINT));
+    }
+  };
 
   return {
-    mealOrDrink,
-    setMealOrDrink,
-    doneRecipes,
-    setDoneRecipes,
-    inProgressRecipes,
-    setInProgressRecipes,
-    getIdContinueRecipe,
-    setGetIdContinueRecipe,
-    getIdDoneRecipe,
-    setGetIdDoneRecipe,
+    recipeInProgress,
+    setRecipeInProgress,
+    getRecipeDetails,
   };
 }

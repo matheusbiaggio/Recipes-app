@@ -59,6 +59,7 @@ function CategoryNameBtn({ mealOrDrink }) {
       return (
         fiveBtns.map((element, index) => (
           <button
+            className="categoryBtn"
             type="button"
             key={ index }
             name={ element.strCategory }
@@ -90,10 +91,11 @@ function CategoryNameBtn({ mealOrDrink }) {
   }
 
   return (
-    <div>
+    <div className="categoryContainer">
       {isLoading && <span>Carregando botões...</span>}
       {makeBtns()}
       <button
+        className="categoryBtn"
         type="button"
         onClick={ removeAllFilters }
         data-testid="All-category-filter"

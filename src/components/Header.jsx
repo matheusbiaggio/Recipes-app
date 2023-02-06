@@ -35,9 +35,10 @@ export default function Header({ title }) {
   }, []);
 
   return (
-    <div>
+    <div className="header">
       <h1 data-testid="page-title">{ title }</h1>
       <img
+        className="image-header"
         src={ profileIcon }
         alt="Profile"
         data-testid="profile-top-btn"
@@ -48,6 +49,7 @@ export default function Header({ title }) {
         showButton
         && (
           <img
+            className="image-header"
             src={ searchIcon }
             alt="Search"
             data-testid="search-top-btn"

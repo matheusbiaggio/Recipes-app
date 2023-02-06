@@ -38,7 +38,7 @@ function Recipes({ mealOrDrink }) {
   }, [mealOrDrink]);
 
   return (
-    <div>
+    <div className="recipesAll">
       {
         isLoading && <span>Carregando...</span>
       }

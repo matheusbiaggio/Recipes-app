@@ -107,6 +107,7 @@ function SearchBar() {
         </label>
       </div>
       <button
+        className="searchBtn"
         type="button"
         data-testid="exec-search-btn"
         onClick={ handleClick }
