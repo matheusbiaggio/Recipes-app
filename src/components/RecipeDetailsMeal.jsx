@@ -3,18 +3,24 @@ import React from 'react';
 export default function RecipeDetailsMeal({ data, arrayIngredients, arrayMeasure }) {
   return (
     <div>
-      <div>
-        <img src={ data.strMealThumb } alt="" data-testid="recipe-photo" />
+      <div className="recipeDetailsContaint">
+        <img
+          className="image-recipe"
+          src={ data.strMealThumb }
+          alt=""
+          data-testid="recipe-photo"
+        />
         <h2 data-testid="recipe-title">
           { data.strMeal }
         </h2>
         <span data-testid="recipe-category">
-          Title:
+          Category:
           { data.strCategory }
         </span>
         {
           arrayIngredients.map((ingredient, index) => (
             <span
+              className="ingredients"
               key={ index }
               data-testid={ `${index}-ingredient-name-and-measure` }
             >
@@ -24,11 +30,10 @@ export default function RecipeDetailsMeal({ data, arrayIngredients, arrayMeasure
             </span>
           ))
         }
-        <span data-testid="instructions">
+        <span className="instruction" data-testid="instructions">
           instruções:
           { data.strInstructions }
         </span>
-        <br />
         <iframe
           data-testid="video"
           src={ data.strYoutube }
@@ -38,6 +43,8 @@ export default function RecipeDetailsMeal({ data, arrayIngredients, arrayMeasure
           allow="autoplay; encrypted-media"
           allowFullScreen
         />
+        <br />
+        <br />
       </div>
     </div>
   );

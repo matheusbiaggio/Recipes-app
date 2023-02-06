@@ -29,17 +29,24 @@ function CardDrink({ mealOrDrink }) {
       return (
         renderElements12.map(({ strDrinkThumb, strDrink, idDrink }, index) => (
           <button
+            className="recipe"
             data-testid={ `${index}-recipe-card` }
             id={ idDrink }
             onClick={ handleCLick }
             key={ index }
           >
             <img
+              className="image-recipe"
               src={ strDrinkThumb }
               alt={ strDrink }
               data-testid={ `${index}-card-img` }
             />
-            <h3 data-testid={ `${index}-card-name` }>{strDrink}</h3>
+            <h3
+              className="title-recipe"
+              data-testid={ `${index}-card-name` }
+            >
+              {strDrink}
+            </h3>
           </button>
         ))
       );
@@ -47,7 +54,7 @@ function CardDrink({ mealOrDrink }) {
   };
 
   return (
-    <div>
+    <div className="containerRecipes">
       {
         renderElements.length !== 0
           ? renderCard()

@@ -99,10 +99,10 @@ img {
 }
 
 .buttonLogin {
-  background-color: #54def0;
+  background-color: #f3ca12;
   border: none;
   border-radius: 7px;
-  color: #aef8f8;
+  color: #fff1b0;
   font-weight: 700;
   height: 35px;
   width: 70px;
@@ -121,5 +121,104 @@ img {
 }
 
 .buttonLogin:hover {
-  background-color: #29bbce;
+  background-color: #cfb12a;
+}
+
+
+.header {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.image-header {
+  background-color: #f3ca12;
+  border-radius: 5px;
+  height: 30px;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding: 8px;
+  width: 30px;
+}
+
+.image-header:hover {
+  background-color: #ffe679;
+  height: 33px;
+  width: 33px;
+}
+
+input {
+  background-color: #dfdfdf;
+  border: none;
+  border-radius: 5px;
+  padding: 3px;
+}
+
+.categoryContainer {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.categoryBtn {
+  background-color: #f3ca12;
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+  margin-bottom: 10px;
+  margin-left: 3px;
+  margin-right: 3px;
+  padding: 5px;
+  text-align: center;
+  width: 65px;
+}
+
+.categoryBtn:hover {
+  background-color: #ffe679;
+  height: 43px;
+  width: 68px;
+}
+
+.searchBtn {
+  border: 3px solid gray;
+  border-radius: 5px;
+  padding: 5px;
+  width: 80px;
+}
+
+.containerRecipes {
+  text-align: center;
+
+}
+
+.recipe {
+  border: none;
+  border-radius: 10px;
+  height: 300px;
+  margin: 15px;
+  padding: 0;
+  padding-top: 15px;
+  width: 300px;
+}
+
+.recipe:hover {
+  background-color: #dbdbdb;
+  height: 310px;
+  width: 310px;
+}
+
+.image-recipe {
+  border-radius: 15px;
+  height: 180px;
+  width: 180px;
+}
+
+.title-recipe {
+  color: #505050;
+  font-size: 20px;
+  padding: 5px;
+  text-transform: uppercase;
+}
+
+.recipesAll {
+  text-align: center;
 }
