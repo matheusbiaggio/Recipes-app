@@ -35,10 +35,12 @@ function FormLogin() {
   }, [login]);
 
   return (
-    <div>
+    <div className="center">
+      <br />
       <h1>Login</h1>
       <label htmlFor="email">
         <input
+          className="loginInput"
           type="email"
           name="email"
           id="email"
@@ -46,9 +48,11 @@ function FormLogin() {
           onChange={ handleChange }
           data-testid="email-input"
         />
+        <br />
       </label>
       <label htmlFor="password">
         <input
+          className="loginInput"
           type="password"
           name="password"
           id="password"
@@ -56,8 +60,10 @@ function FormLogin() {
           onChange={ handleChange }
           data-testid="password-input"
         />
+        <br />
       </label>
       <button
+        className="buttonLogin"
         type="button"
         onClick={ handleClick }
         disabled={ btnDisabled }

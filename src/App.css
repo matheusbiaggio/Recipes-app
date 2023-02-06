@@ -76,7 +76,50 @@ img {
   border: 1px solid black;
   display: flex;
   flex-direction: row;
+  gap: 200px;
   overflow-x: scroll;
   width: 400px;
-  gap: 200px;
+}
+
+.scratched {
+  text-decoration: line-through solid rgb(0);
+}
+
+.center {
+  text-align: center;
+}
+
+.loginInput {
+  background-color: #d4d4d4;
+  border: none;
+  border-radius: 5px;
+  height: 20px;
+  margin-bottom: 5px;
+  width: 220px;
+}
+
+.buttonLogin {
+  background-color: #54def0;
+  border: none;
+  border-radius: 7px;
+  color: #aef8f8;
+  font-weight: 700;
+  height: 35px;
+  width: 70px;
+
+}
+
+.buttonLogin:disabled {
+  background-color: #636363;
+  border: none;
+  border-radius: 7px;
+  color: #e4e4e4;
+  font-weight: 700;
+  height: 35px;
+  width: 70px;
+
+}
+
+.buttonLogin:hover {
+  background-color: #29bbce;
 }
