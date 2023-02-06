@@ -224,7 +224,7 @@ export default function RecipeDetails() {
       {showBtn && (
         <button
           onClick={ handleClick }
-          className="Footer"
+          className="startBtn"
           data-testid="start-recipe-btn"
         >
           {nameButton}
