@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 function useRequestAPI() {
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState(null);
 
   const makeFetch = async (mealOrDrink, endpoint) => {
     try {
@@ -11,15 +10,13 @@ function useRequestAPI() {
       const response = await fetch(url);
       const json = await response.json();
       return json;
-    } catch (error) {
-      setErrors(error);
     } finally {
       setIsLoading(false);
     }
   };
 
   return {
-    makeFetch, isLoading, errors,
+    makeFetch, isLoading,
   };
 }
 
