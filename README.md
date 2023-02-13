@@ -43,8 +43,6 @@ The profile screen shows the registered email and buttons that redirect to favor
 
 ## 💻 Installation
 
-Use the initialization:
-
 install the dependencies:
 
 ```bash
