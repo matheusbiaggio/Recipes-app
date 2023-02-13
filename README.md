@@ -56,5 +56,3 @@ initialize the project:
 ```bash
 npm start
 ```
-
-![GitHub Org's stars](https://img.shields.io/github/stars/matheusbiaggio?style=social)
