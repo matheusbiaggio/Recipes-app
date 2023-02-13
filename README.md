@@ -4,13 +4,6 @@
 <img src="http://img.shields.io/static/v1?label=STATUS&message=%20FINISHED&color=GREEN&style=for-the-badge"/>
 </p>
 
-## :hammer: Project features
-
-- `Functionality 1`: Search for food and drink recipes
-- `Functionality 2`: Filter recipes by types or ingredients
-- `Functionality 3`: Favorite recipes
-- `Functionality 4`: Track recipes in progress and completed
-
 ## ✔ Technologies used
 
 - <img align="center" alt="Matheus-Jest" height="30" width="90" src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
@@ -40,6 +33,13 @@ When clicking on a recipe, the user is redirected to the details screen, which h
 In favorite recipes screens, all favorite recipes are listed, also for recipes started.
 
 The profile screen shows the registered email and buttons that redirect to favorite, started and finished recipes.
+
+## :hammer: Project features
+
+- `Functionality 1`: Search for food and drink recipes
+- `Functionality 2`: Filter recipes by types or ingredients
+- `Functionality 3`: Favorite recipes
+- `Functionality 4`: Track recipes in progress and completed
 
 ## 💻 Installation
 
